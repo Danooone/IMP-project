@@ -1,39 +1,82 @@
+# ESP32 Light Measurement and Control Project
 
-This directory is intended for project header files.
+## Project Overview
+This project is designed to measure the brightness level and adjust the brightness of an LED accordingly. The application should be configurable by the user (e.g., via serial communication), and the measured brightness value should be transmitted to the internet via MQTT.
 
-A header file is a file containing C declarations and macro definitions
-to be shared between several project source files. You request the use of a
-header file in your project source file (C, C++, etc) located in `src` folder
-by including it, with the C preprocessing directive `#include'.
+## Hardware Requirements
+- ESP32 development board
+- Light sensor
+- LED with PWM control capability
+- Power supply and necessary cables
 
-```src/main.c
+## Software Requirements
+- ESP-IDF or Arduino IDE
+- MQTT broker
+- NVS module for data storage
 
-#include "header.h"
+## Features
+- Measure ambient brightness using a light sensor
+- Adjust LED brightness based on the measured light level
+- User-configurable settings via serial communication
+- Store settings in NVS to retain them after a power cycle
+- Implement hysteresis-based control for LED activation
+- Transmit the current brightness level to an MQTT broker
 
-int main (void)
-{
- ...
-}
-```
+## Implementation Details
+- The brightness level is measured periodically and stored in memory.
+- The LED brightness is adjusted in a linearized manner based on the measured values.
+- Users can set a threshold value via serial communication to trigger LED control.
+- MQTT messages are published at regular intervals to report the current brightness level.
+- Hysteresis is applied to prevent frequent switching of the LED.
 
-Including a header file produces the same results as copying the header file
-into each source file that needs it. Such copying would be time-consuming
-and error-prone. With a header file, the related declarations appear
-in only one place. If they need to be changed, they can be changed in one
-place, and programs that include the header file will automatically use the
-new version when next recompiled. The header file eliminates the labor of
-finding and changing all the copies as well as the risk that a failure to
-find one copy will result in inconsistencies within a program.
+## Setup Instructions
+1. **Install ESP-IDF or Arduino IDE**
+   - Follow the official ESP-IDF installation guide or install the necessary libraries in the Arduino IDE.
+2. **Clone the Repository**
+   ```sh
+   git clone https://github.com/your-repo/esp32-light-control.git
+   cd esp32-light-control
+   ```
+3. **Configure the Project**
+   - Modify the WiFi and MQTT broker settings in the source code.
+   - Configure the LED and light sensor pins according to your hardware setup.
+4. **Build and Flash the Firmware**
+   - If using ESP-IDF:
+     ```sh
+     idf.py set-target esp32
+     idf.py build
+     idf.py flash
+     ```
+   - If using Arduino IDE:
+     - Open the project in Arduino IDE.
+     - Select the correct ESP32 board and port.
+     - Upload the code to the board.
+5. **Monitor Serial Output**
+   - Run:
+     ```sh
+     idf.py monitor
+     ```
+   - In Arduino IDE, open the Serial Monitor at the correct baud rate.
 
-In C, the usual convention is to give header files names that end with `.h'.
-It is most portable to use only letters, digits, dashes, and underscores in
-header file names, and at most one dot.
+## Usage Instructions
+- Use serial commands to configure the brightness threshold.
+- The LED brightness will be automatically adjusted based on ambient light.
+- The device will send brightness data to the MQTT broker.
+- Stored settings will persist even after power loss.
 
-Read more about using header files in official GCC documentation:
+## Deliverables
+- Project source code (without binary files) in a ZIP archive.
+- Documentation in both source format and a compiled PDF.
+- Demonstration of the solution (either in person or via a recorded video uploaded to YouTube or Google Drive).
 
-* Include Syntax
-* Include Operation
-* Once-Only Headers
-* Computed Includes
+## Evaluation Criteria
+| Category        | Points |
+|----------------|--------|
+| Documentation  | 4      |
+| Functionality  | 5      |
+| Presentation   | 1      |
+| Solution Quality | 4      |
 
-https://gcc.gnu.org/onlinedocs/cpp/Header-Files.html
+- The documentation must accurately describe the implemented solution.
+- The functionality must meet the project requirements.
+- The solution should handle error cases and be extendable.
